@@ -10,4 +10,3 @@ square x = Rect x x
 area :: Shape -> Float
 area (Circle r) = pi * r ^ 2
 area (Rect x y) = x * y
-
