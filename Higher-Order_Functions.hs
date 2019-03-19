@@ -17,7 +17,7 @@ myFilter2 p (x:xs) | p x = x : myFilter2 p xs
                    | otherwise = myFilter2 p xs
 
 myFilter3 :: (a -> Bool) -> [a] -> [a]
--- Using foldr
+myFilter3 p = foldr (\x xs -> if p x then x : xs else xs) []
 
 mySum :: Num a => [a] -> a
 mySum = foldr (+) 0
