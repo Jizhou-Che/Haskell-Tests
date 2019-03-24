@@ -1,3 +1,4 @@
+-- Processing lists.
 myMap1 :: (a -> b) -> [a] -> [b]
 myMap1 f xs = [f x | x <- xs]
 
@@ -19,6 +20,7 @@ myFilter2 p (x:xs) | p x = x : myFilter2 p xs
 myFilter3 :: (a -> Bool) -> [a] -> [a]
 myFilter3 p = foldr (\x xs -> if p x then x : xs else xs) []
 
+-- The foldr function.
 mySum :: Num a => [a] -> a
 mySum = foldr (+) 0
 
@@ -44,6 +46,7 @@ snoc x xs = xs ++ [x]
 myReverse1 :: [a] -> [a]
 myReverse1 = foldr snoc []
 
+-- The foldl function.
 myFoldl :: (a -> b -> a) -> a -> [b] -> a
 myFoldl f v [] = v
 myFoldl f v (x:xs) = myFoldl f (f v x) xs

@@ -1,3 +1,4 @@
+-- Exercises.
 myLast1 :: [a] -> a
 myLast1 xs = head (drop (length xs - 1) xs)
 

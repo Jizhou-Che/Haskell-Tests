@@ -1,3 +1,4 @@
+-- Conditional expressions and guarded equations.
 myAbs1 :: Int -> Int
 myAbs1 n = if n >= 0 then n else -n
 
@@ -14,12 +15,14 @@ mySignum2 n | n < 0 = -1
             | n == 0 = 0
             | otherwise = 1
 
+-- Pattern matching.
 myHead :: [a] -> a
 myHead (x:_) = x
 
 myTail :: [a] -> [a]
 myTail (_:xs) = xs
 
+-- Lambda expressions.
 myAdd1 :: Int -> Int -> Int
 myAdd1 x y = x + y
 
@@ -35,9 +38,11 @@ myAdd4 = \x -> (\y -> x + y)
 odds :: Int -> [Int]
 odds n = map (\x -> x * 2 + 1) [0..n - 1]
 
+-- Operator sections.
 mySum :: [Int] -> Int
 mySum = foldl (+) 0
 
+-- Exercises.
 safetail1 :: [a] -> [a]
 safetail1 xs = if null xs then [] else tail xs
 

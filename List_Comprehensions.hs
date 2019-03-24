@@ -1,3 +1,4 @@
+-- Generators.
 myConcat :: [[a]] -> [a]
 myConcat xss = [x | xs <- xss, x <- xs]
 
@@ -7,6 +8,7 @@ firsts ps = [x | (x, _) <- ps]
 myLength :: [a] -> Int
 myLength xs = sum [1 | _ <- xs]
 
+-- Guards.
 factors :: Int -> [Int]
 factors n = [x | x <- [1..n], n `mod` x == 0]
 
@@ -28,5 +30,6 @@ sorted xs = and [x <= y | (x, y) <- pairs xs]
 positions :: Eq a => a -> [a] -> [Int]
 positions x xs = [i | (x', i) <- zip xs [0..], x == x']
 
+-- String comprehensions.
 count :: Char -> String -> Int
 count x xs = length [x | x' <- xs, x == x']
