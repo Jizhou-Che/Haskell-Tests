@@ -1,4 +1,5 @@
 import System.IO
+
 -- Derived primitives.
 myGetLine :: IO String
 myGetLine = do x <- getChar
