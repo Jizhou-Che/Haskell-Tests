@@ -7,8 +7,9 @@ myAbs2 n | n >= 0 = n
          | otherwise = -n
 
 mySignum1 :: Int -> Int
-mySignum1 n = if n < 0 then -1 else
-                 if n == 0 then 0 else 1
+mySignum1 n = if n < 0 then -1
+              else if n == 0 then 0
+              else 1
 
 mySignum2 :: Int -> Int
 mySignum2 n | n < 0 = -1
@@ -17,10 +18,10 @@ mySignum2 n | n < 0 = -1
 
 -- Pattern matching.
 myHead :: [a] -> a
-myHead (x:_) = x
+myHead (x : _) = x
 
 myTail :: [a] -> [a]
-myTail (_:xs) = xs
+myTail (_ : xs) = xs
 
 -- Lambda expressions.
 myAdd1 :: Int -> Int -> Int
@@ -36,7 +37,7 @@ myAdd4 :: Int -> Int -> Int
 myAdd4 = \x -> (\y -> x + y)
 
 odds :: Int -> [Int]
-odds n = map (\x -> x * 2 + 1) [0..n - 1]
+odds n = map (\x -> x * 2 + 1) [0 .. n - 1]
 
 -- Operator sections.
 mySum :: [Int] -> Int

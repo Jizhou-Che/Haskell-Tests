@@ -15,7 +15,7 @@ main = do
   box <- newEmptyMVar
   putStrLn $ "MAIN: Creating " ++ show numConsumers ++ " consumers..."
   -- Create the consumer threads.
-  forM_ [1..numConsumers] (forkIO . consumer box)
+  forM_ [1 .. numConsumers] (forkIO . consumer box)
   putStrLn "MAIN: Creating producer..."
   -- Start producing in the main thread forever.
   producer box 0

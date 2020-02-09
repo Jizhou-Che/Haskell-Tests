@@ -9,7 +9,7 @@ main = do
   hSetBuffering stdout LineBuffering
   putStrLn "MAIN: Creating threads..."
   -- Start threads using forkIO.
-  forM_ [1..7] (forkIO . helloThread)
+  forM_ [1 .. 7] (forkIO . helloThread)
   -- Main thread waits forever.
   forever (threadDelay 1000000)
 
