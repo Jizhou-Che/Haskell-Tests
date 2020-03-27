@@ -1,4 +1,5 @@
 -- Recursion on lists.
+
 myProduct :: Num a => [a] -> a
 myProduct [] = 1
 myProduct (n : ns) = n * myProduct ns
@@ -22,7 +23,9 @@ myTake n xs = case (n, xs) of (0, _) -> []
                               (_, []) -> []
                               (n, x : xs) -> if n < 0 then [] else x : myTake (n - 1) xs
 
+
 -- An implementation of insertion sort using recursion.
+
 insert :: Ord a => a -> [a] -> [a]
 insert x [] = [x]
 insert x (y : ys) | x <= y = x : y : ys
@@ -32,14 +35,18 @@ isort :: Ord a => [a] -> [a]
 isort [] = []
 isort (x : xs) = insert x (isort xs)
 
+
 -- An implementation of quicksort using multiple recursion.
+
 qsort :: Ord a => [a] -> [a]
 qsort [] = []
 qsort (x : xs) = qsort smaller ++ [x] ++ qsort larger
                  where smaller = [a | a <- xs, a <= x]
                        larger = [a | a <- xs, a > x]
 
+
 -- Mutual recursion.
+
 evens :: [a] -> [a]
 evens [] = []
 evens (x : xs) = x : odds xs
@@ -48,7 +55,9 @@ odds :: [a] -> [a]
 odds [] = []
 odds (_ : xs) = evens xs
 
+
 -- Exercises.
+
 myAnd :: [Bool] -> Bool
 myAnd [] = True
 myAnd (x : xs) = x && myAnd xs
@@ -65,7 +74,9 @@ myElem :: Eq a => a -> [a] -> Bool
 myElem x [] = False
 myElem x xs = if x == head xs then True else myElem x (tail xs)
 
+
 -- An implementation of merge sort using recursion.
+
 merge :: Ord a => [a] -> [a] -> [a]
 merge xs [] = xs
 merge [] ys = ys

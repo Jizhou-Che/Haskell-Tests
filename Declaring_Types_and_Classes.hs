@@ -1,10 +1,13 @@
 -- Type declarations.
+
 type Assoc k v = [(k, v)]
 
 find :: Eq k => k -> Assoc k v -> [v]
 find k t = [v | (k', v) <- t, k == k']
 
+
 -- Data declarations.
+
 data Shape = Circle Float | Rect Float Float
 
 instance Show Shape where
@@ -18,7 +21,9 @@ area :: Shape -> Float
 area (Circle r) = pi * r ^ 2
 area (Rect x y) = x * y
 
+
 -- Maybe :: * -> *.
+
 safediv :: Int -> Int -> Maybe Int
 safediv _ 0 = Nothing
 safediv x y = Just (x `div` y)
@@ -27,7 +32,9 @@ safehead :: [a] -> Maybe a
 safehead [] = Nothing
 safehead xs = Just (head xs)
 
+
 -- Recursive types.
+
 data Nat = Zero | Succ Nat
            deriving (Show, Eq, Ord)
 
@@ -49,7 +56,9 @@ natAdd :: Nat -> Nat -> Nat
 natAdd Zero n = n
 natAdd (Succ m) n = Succ (natAdd m n)
 
+
 -- A recursive definition of lists.
+
 data List a = Nil | Cons a (List a)
               deriving Show
 
@@ -66,7 +75,9 @@ len :: List a -> Int
 len Nil = 0
 len (Cons _ xs) = 1 + len xs
 
+
 -- A recursive difinition of binary trees.
+
 data Tree a = Leaf a | Node (Tree a) a (Tree a)
               deriving Show
 

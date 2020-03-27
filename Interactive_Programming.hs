@@ -1,6 +1,8 @@
 import System.IO
 
+
 -- Derived primitives.
+
 myGetLine :: IO String
 myGetLine = do
   x <- getChar
@@ -21,7 +23,9 @@ myPutStrLn xs = do
   myPutStr xs
   putChar '\n'
 
+
 -- An interactive strlen.
+
 strlen :: IO ()
 strlen = do
   putStr "Enter a string: "
@@ -30,7 +34,9 @@ strlen = do
   putStr (show (length xs))
   putStrLn " characters."
 
+
 -- Hangman.
+
 hangman :: IO ()
 hangman = do
   putStrLn "Think of a word: "

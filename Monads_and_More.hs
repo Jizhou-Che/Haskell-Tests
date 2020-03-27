@@ -1,6 +1,8 @@
 import Data.Char
 
+
 -- Functors.
+
 data Tree a = Leaf a | Node (Tree a) (Tree a)
               deriving Show
 
@@ -12,7 +14,9 @@ instance Functor Tree where
 inc :: Functor f => f Int -> f Int
 inc = fmap (+ 1)
 
+
 -- Applicatives.
+
 prods :: [Int] -> [Int] -> [Int]
 prods xs ys = pure (*) <*> xs <*> ys
 
@@ -23,7 +27,9 @@ getChars1 n = pure (:) <*> getChar <*> getChars1 (n - 1)
 getChars2 :: Int -> IO String
 getChars2 n = sequenceA $ replicate n getChar
 
+
 -- Monads.
+
 data Expr = Val Int | Div Expr Expr
 
 safediv :: Int -> Int -> Maybe Int
@@ -58,7 +64,9 @@ myPairs3 xs ys = do
   y <- ys
   [(x, y)]
 
+
 -- The state monad.
+
 type State = Int
 
 newtype ST a = S (State -> (a, State))
@@ -82,7 +90,9 @@ instance Monad ST where
   -- (>>=) :: ST a -> (a -> ST b) -> ST b
   st >>= f = S (\s -> let (x, s') = app st s in app (f x) s')
 
+
 -- Relabelling trees.
+
 rlabel :: Tree a -> Int -> (Tree Int, Int)
 rlabel (Leaf _) n = (Leaf n, n + 1)
 rlabel (Node l r) n = (Node l' r', n'')
@@ -114,7 +124,9 @@ label2 t = fst $ app (alabel t) 0
 label3 :: Tree a -> Tree Int
 label3 t = fst $ app (mlabel t) 0
 
+
 -- Generic functions.
+
 myMapM :: Monad m => (a -> m b) -> [a] -> m [b]
 myMapM _ [] = return []
 myMapM f (x : xs) = do
@@ -152,7 +164,9 @@ join1 mmx = do
 join2 :: Monad m => m (m a) -> m a
 join2 x = x >>= id
 
+
 -- Exercises.
+
 data Tree' a = Leaf' | Node' (Tree' a) a (Tree' a)
                deriving Show
 
