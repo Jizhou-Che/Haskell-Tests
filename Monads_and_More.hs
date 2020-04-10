@@ -1,4 +1,6 @@
 import Data.Char
+import Control.Monad
+import Control.Monad.Trans.Class
 
 
 -- Functors.
@@ -191,3 +193,77 @@ instance Applicative ZipList where
 instance Monad ZipList where
   -- (>>=) :: ZipList a -> (a -> ZipList b) -> ZipList b
   Z xs >>= f = Z [y | Z ys <- map f xs, y <- ys]
+
+
+-- Monad transformers.
+
+newtype MaybeT m a = MaybeT { runMaybeT :: m (Maybe a) }
+
+instance Monad m => Functor (MaybeT m) where
+  -- fmap :: (Monad m) => (a -> b) -> MaybeT m a -> MaybeT m b
+  fmap = liftM
+
+instance Monad m => Applicative (MaybeT m) where
+  -- pure :: (Monad m) => a -> MaybeT m a
+  pure = return
+  -- (<*>) :: (Monad m) => MaybeT m (a -> b) -> MaybeT m a -> MaybeT m b
+  (<*>) = ap
+
+instance Monad m => Monad (MaybeT m) where
+  -- return :: (Monad m) => a -> MaybeT m a
+  return = MaybeT . return . Just
+  -- (>>=) :: (Monad m) => MaybeT m a -> (a -> MaybeT m b) -> MaybeT m b
+  x >>= f = MaybeT $ do
+    mv <- runMaybeT x
+    case mv of Nothing -> return Nothing
+               Just v -> runMaybeT (f v)
+
+instance MonadTrans MaybeT where
+  -- lift :: (Monad m) => m a -> MaybeT m a
+  lift = MaybeT . (liftM Just)
+
+
+-- The writer monad.
+
+newtype Writer w a = Writer { runWriter :: (a, w) }
+
+instance Monoid w => Functor (Writer w) where
+  -- fmap :: (Monoid w) => (a -> b) -> Writer w a -> Writer w b
+  fmap g (Writer (x, v)) = Writer (g x, v)
+
+instance Monoid w => Applicative (Writer w) where
+  -- pure :: (Monoid w) => a -> Writer w a
+  pure x = Writer (x, mempty)
+  -- (<*>) :: (Monoid w) => Writer w (a -> b) -> Writer w a -> Writer w b
+  Writer (g, v1) <*> Writer (x, v2) = Writer (g x, mappend v1 v2)
+
+instance Monoid w => Monad (Writer w) where
+  -- (>>=) :: (Monoid w) => Writer w a -> (a -> Writer w b) -> Writer w b
+  Writer (x, v1) >>= f = let Writer (y, v2) = f x in Writer (y, mappend v1 v2)
+
+newtype WriterT w m a = WriterT { runWriterT :: m (Writer w a) }
+
+instance (Monad m, Monoid w) => Functor (WriterT w m) where
+  -- fmap :: (Monoid w, Monad m) => (a -> b) -> WriterT w m a -> WriterT w m b
+  fmap = liftM
+
+instance (Monad m, Monoid w) => Applicative (WriterT w m) where
+  -- pure :: (Monoid w, Monad m) => a -> WriterT w m a
+  pure = return
+  -- (<*>) :: (Monoid w, Monad m) => WriterT w m (a -> b) -> WriterT w m a -> WriterT w m b
+  (<*>) = ap
+
+instance (Monad m, Monoid w) => Monad (WriterT w m) where
+  -- return :: (Monoid w, Monad m) => a -> WriterT w m a
+  return = WriterT . return . return
+  -- (>>=) :: (Monoid w, Monad m) => WriterT w m a -> (a -> WriterT w m b) -> WriterT w m b
+  x >>= f = WriterT $ do
+    w1 <- runWriterT x
+    let (y, l1) = runWriter w1
+    w2 <- runWriterT (f y)
+    let (z, l2) = runWriter w2
+    return $ Writer (z, mappend l1 l2)
+
+instance Monoid w => MonadTrans (WriterT w) where
+  -- lift :: (Monoid w, Monad m) => m a -> WriterT w m a
+  lift = WriterT . (liftM return)
